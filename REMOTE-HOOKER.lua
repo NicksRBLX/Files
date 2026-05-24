@@ -24,6 +24,7 @@ end
 
 local HOOK = nil;
 HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
+    if not NPHHOOKENABLED then return HOOK(...); end
     local method = getnamecallmethod();
 
     if method and (method == "FireServer" or method == "fireServer" or method == "InvokeServer" or method == "invokeServer") then
@@ -37,12 +38,12 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 local args = { select(2, ...) };
 
                 local before = nil;
-                if nphGetData then before = nphGetData(); end;
-                
+                if NPHGetData then before = NPHGetData(); end;
+
                 local returns = { HOOK(...) };
 
                 local after = nil;
-                if nphGetData then after = nphGetData(); end;
+                if NPHGetData then after = NPHGetData(); end;
 
                 local data = {
                     method = method;
