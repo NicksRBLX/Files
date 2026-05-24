@@ -33,7 +33,7 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
 
             if game.IsA(remote, "RemoteEvent") or game.IsA(remote, "RemoteFunction") then
                 if checkcaller() then return HOOK(...); end
-                if not table.find(whitelist, remote.Name) then return HOOK(...); end
+                if not table.find(NPHHOOKWHITELIST, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
 
