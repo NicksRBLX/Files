@@ -36,14 +36,9 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 if not table.find(NPHHOOKWHITELIST, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
-
-                local before = nil;
-                if NPHGetData then before = NPHGetData(); end;
-
+                local _, before = pcall(NPHGetData); end;
                 local returns = { HOOK(...) };
-
-                local after = nil;
-                if NPHGetData then after = NPHGetData(); end;
+                local _, after = pcall(NPHGetData); end;
 
                 local data = {
                     method = method;
