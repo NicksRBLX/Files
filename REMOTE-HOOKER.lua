@@ -36,9 +36,9 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 if not table.find(NPHHOOKWHITELIST, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
-                local _, before = pcall(NPHGetData);
+                local before = deepclone(NPHGetData());
                 local returns = { HOOK(...) };
-                local _, after = pcall(NPHGetData);
+                local after = deepclone(NPHGetData());
 
                 local data = {
                     method = method;
