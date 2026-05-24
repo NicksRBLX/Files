@@ -1,25 +1,25 @@
 local cloneref = (cloneref or clonereference or function(instance) return instance; end);
 
 local function deepclone(args: table, copies: table): table
-    local copy = nil
-    copies = copies or {}
+    local copy = nil;
+    copies = copies or {};
 
     if type(args) == 'table' then
         if copies[args] then
-            copy = copies[args]
+            copy = copies[args];
         else
-            copy = {}
-            copies[args] = copy
+            copy = {};
+            copies[args] = copy;
             for i, v in next, args do
-                copy[deepclone(i, copies)] = deepclone(v, copies)
+                copy[deepclone(i, copies)] = deepclone(v, copies);
             end
         end
     elseif typeof(args) == "Instance" then
-        copy = cloneref(args)
+        copy = cloneref(args);
     else
-        copy = args
+        copy = args;
     end
-    return copy
+    return copy;
 end
 
 local HOOK = nil;
@@ -38,13 +38,14 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 local returns = { HOOK(...) };
 
                 local data = {
-                    method = method,
-                    remote = remote,
-                    args = deepclone(args),
-                    returnvalue = returns,
+                    method = method;
+                    remote = remote;
+                    args = deepclone(args);
+                    returnvalue = returns;
                 }
-                args = nil
+                if nphbefore then data.before = nphbefore(); end
 
+                args = nil
                 schedule(remoteHandler, data);
 
                 return unpack(returns);
