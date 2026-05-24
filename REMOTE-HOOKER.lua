@@ -35,9 +35,12 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 if not table.find(whitelist, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
+
                 local before = nil;
                 if nphGetData then before = nphGetData(); end;
+                
                 local returns = { HOOK(...) };
+
                 local after = nil;
                 if nphGetData then after = nphGetData(); end;
 
@@ -48,9 +51,9 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                     before = before;
                     after = after;
                     returnvalue = returns;
-                }
+                };
 
-                args = nil
+                args = nil;
                 schedule(remoteHandler, data);
 
                 return unpack(returns);
