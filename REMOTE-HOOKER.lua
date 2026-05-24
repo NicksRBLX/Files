@@ -36,23 +36,21 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
 
                 local args = { select(2, ...) };
                 local before = nil;
-                if nphgetdata then before = nphgetdata(); end;
+                if nphGetData then before = nphGetData(); end;
                 local returns = { HOOK(...) };
                 local after = nil;
-                if nphgetdata then after = nphgetdata(); end;
+                if nphGetData then after = nphGetData(); end;
 
                 local data = {
                     method = method;
                     remote = remote;
                     args = deepclone(args);
-                    before = deepclone(before);
-                    after = deepclone(after);
+                    before = before;
+                    after = after;
                     returnvalue = returns;
                 }
 
                 args = nil
-                before = nil;
-                after = nil;
                 schedule(remoteHandler, data);
 
                 return unpack(returns);
