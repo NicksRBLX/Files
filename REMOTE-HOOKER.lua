@@ -45,12 +45,14 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                     method = method;
                     remote = remote;
                     args = deepclone(args);
-                    before = before;
-                    after = after;
+                    before = deepclone(before);
+                    after = deepclone(after);
                     returnvalue = returns;
                 }
 
                 args = nil
+                before = nil;
+                after = nil;
                 schedule(remoteHandler, data);
 
                 return unpack(returns);
