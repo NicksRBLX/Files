@@ -36,22 +36,22 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 if not table.find(NPHHOOKWHITELIST, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
-                local before = NPHGetData();
+                local before  = nil;
+				task.spawn(function() before = NPHGetData(); end);
                 local returns = { HOOK(...) };
-                local after = NPHGetData();
+                local after = nil;
+                task.spawn(function() after = NPHGetData(); end);
 
                 local data = {
                     method = method;
                     remote = remote;
                     args = deepclone(args);
-                    before = deepclone(before);
-                    after = deepclone(after);
                     returnvalue = returns;
+                    before = before;
+                    after = after;
                 };
 
                 args = nil;
-                before = nil;
-                after = nil;
                 schedule(remoteHandler, data);
 
                 return unpack(returns);
