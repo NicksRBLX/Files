@@ -35,15 +35,17 @@ HOOK = hookmetamethod(game, "__namecall", newcclosure(function(...)
                 if not table.find(whitelist, remote.Name) then return HOOK(...); end
 
                 local args = { select(2, ...) };
+                local before = nil;
+                if nphbefore then before = nphbefore(); end;
                 local returns = { HOOK(...) };
 
                 local data = {
                     method = method;
                     remote = remote;
                     args = deepclone(args);
+                    before = before;
                     returnvalue = returns;
                 }
-                if nphbefore then data.before = nphbefore(); end
 
                 args = nil
                 schedule(remoteHandler, data);
